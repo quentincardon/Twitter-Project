@@ -1,8 +1,7 @@
-const { app } = require('../app');
+const app = require('../app');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const { clientPromise } = require('../database');
-const { default: mongoose } = require('mongoose');
 
 app.use(
   session({
@@ -14,7 +13,7 @@ app.use(
       maxAge: 1000 * 60 * 60 * 24 * 14,
     },
     store: MongoStore.create({
-      clientPromise: clientPromise.then((m) => mongoose.connection.getClient()),
+      clientPromise: clientPromise.then((m) => m.connection.getClient()),
       ttl: 60 * 60 * 24 * 14,
     }),
   })

@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
+const env = require(`../environment/${process.env.NODE_ENV}`);
 
 exports.clientPromise = mongoose
-  .connect('mongodb+srv://quentin:yhnuj@cluster0.djftsho.mongodb.net/twitter?retryWrites=true&w=majority', {
-    useNewUrlParser: true
-})
-                .then( () => console.log('connexion ok '))
-                .catch( err => console.log(err));
+  .connect(env.dbUrl, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+  })
+  .catch((err) => console.log(err));
